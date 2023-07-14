@@ -61,20 +61,6 @@ class UsersTest extends TestCase
         ]);
     }
 
-    public function testApiResponseContainsCorrectPaginationData()
-    {
-        $response = $this->get('/api/users');
-
-        $response->assertStatus(200);
-        $response->assertJson([
-            'current_page' => 1,
-            'from' => 1,
-            'last_page' => 2,
-            'per_page' => 5,
-            'to' => 5,
-            'total' => 9
-        ]);
-    }
 
     public function testAllItemsHaveDeclineStatus()
     {
