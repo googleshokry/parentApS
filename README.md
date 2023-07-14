@@ -4,10 +4,6 @@ To get started, make sure you have [Docker installed](https://docs.docker.com/do
 
 Next, navigate in your terminal to the directory you cloned this, and spin up the containers for the web server by running `docker-compose up -d --build site`.
 
-After that completes, run this code
-
-- `docker-compose run --rm composer update`
-- `docker-compose run --rm artisan migrate`
 
 Note:- 
 The following are built for our web server, with their exposed ports detailed:
@@ -21,21 +17,17 @@ You can use By
 
 API By
 
-``
-http://localhost/v1/api/movies?category_id=35&rated=desc
-http://localhost/v1/api/movies
-``
-To update from themoviedb run this link
-``
-http://localhost/v1/api/update-movies
-``
-
-CLI By
-
-``
-php artisan movies:all
-``
-
+````
+http://localhost/api/users?provider=DataProviderY
+http://localhost/api/users?provider=DataProviderX
+//
+http://localhost/api/users?balanceMin=100&balanceMax=300
+http://localhost/api/users?provider=authorised
+//
+http://localhost/api/users?currency=AED
+http://localhost/api/users?currency=USD
+http://localhost/api/users?currency=EPG
+````
 for Testing run 
 
 ``
@@ -45,4 +37,8 @@ composer test
 or
 
 ``./vendor/bin/phpunit
+``
+or
+``
+php artisan test
 ``
