@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\ProviderConstants;
 use App\Helpers\PaginationHelper;
+use App\Interfaces\DataSource;
+use ReflectionClass;
 
 class UsersController extends Controller
 {
@@ -14,7 +17,8 @@ class UsersController extends Controller
         // Pagination Item for Page
         $showPerPage = 5;
         // Provider Get Data
-        $dataProviders = ['DataProviderX', 'DataProviderY'];
+        $dataProviders = ProviderConstants::values();
+
         // filter by provider
         if (request()->has('provider') && in_array(request('provider'), $dataProviders)) {
             $combinedData = $combinedData->concat(("App\Models\\" . request('provider'))::getData());
