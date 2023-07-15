@@ -29,6 +29,7 @@ class DataProviderY extends Model implements DataSource
                 'currency' => $item->currency,
                 'status' => self::$statusCodes[$item->status],
                 'created_at' => $item->created_at,
+                'provider' => "DataProviderY",
             ];
         }, $data));
     }
