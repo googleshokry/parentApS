@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Constants\ProviderConstants;
 use App\Helpers\PaginationHelper;
-use App\Interfaces\DataSource;
-use ReflectionClass;
+use Illuminate\Pipeline\Pipeline;
 
 class UsersController extends Controller
 {
@@ -28,24 +27,17 @@ class UsersController extends Controller
             }
         }
 
-        // filter by status
-        $combinedData = $combinedData->when(request("statusCode"), function ($q) {
-            return $q->where('status', request('statusCode'));
-        });
+        $combinedData = app(Pipeline::class)
+            ->send($combinedData)
+            ->through([
+                \App\Filters\Status::class,
+                \App\Filters\Currency::class,
+                \App\Filters\BalanceMax::class,
+                \App\Filters\BalanceMin::class,
+            ])
+            ->thenReturn();
 
-        // filter by balance range
-        $combinedData = $combinedData->when(request('balanceMin'), function ($q) {
-            return $q->where('amount', ">=", request('balanceMin'));
-        });
 
-        $combinedData = $combinedData->when(request('balanceMax'), function ($q) {
-            return $q->where('amount', "<=", request('balanceMax'));
-        });
-
-        // filter by currency
-        $combinedData = $combinedData->when(request("currency"), function ($q) {
-            return $q->where('currency', request('currency'));
-        });
         // Pagination
         $paginated = PaginationHelper::paginate($combinedData->values(), $showPerPage);
         // return results
