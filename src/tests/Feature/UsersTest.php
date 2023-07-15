@@ -150,4 +150,25 @@ class UsersTest extends TestCase
         }
     }
 
+    public function testAllItemsHaveNoTProviderY()
+    {
+        $response = $this->get('/api/users?provider=DataProviderX');
+
+        $response->assertStatus(200);
+        $data = $response->json()['data'];
+        foreach ($data as $item) {
+            $this->assertNotEquals('DataProviderY', $item['provider']);
+        }
+    }
+    public function testAllItemsHaveNoTProviderX()
+    {
+        $response = $this->get('/api/users?provider=DataProviderY');
+
+        $response->assertStatus(200);
+        $data = $response->json()['data'];
+        foreach ($data as $item) {
+            $this->assertNotEquals('DataProviderX', $item['provider']);
+        }
+    }
+
 }
