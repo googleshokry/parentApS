@@ -8,9 +8,9 @@ class Status
 {
     public function handle($data, Closure $next)
     {
-        $combinedData = $data->when(request("statusCode"), function ($q) {
+        $data = $data->when(request("statusCode"), function ($q) {
             return $q->where('status', request('statusCode'));
         });
-        return $next($combinedData);
+        return $next($data);
     }
 }

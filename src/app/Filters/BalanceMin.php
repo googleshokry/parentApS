@@ -8,9 +8,9 @@ class BalanceMin
 {
     public function handle($data, Closure $next)
     {
-        $combinedData = $data->when(request("balanceMin"), function ($q) {
+        $data = $data->when(request("balanceMin"), function ($q) {
             return $q->where('amount', ">=", request('balanceMin'));
         });
-        return $next($combinedData);
+        return $next($data);
     }
 }
